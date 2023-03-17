@@ -1,0 +1,31 @@
+{% extends 'base.html'%}
+
+{% block head %}
+<title>Blog Section of my Website </title>
+{% endblock head %}
+
+
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center py-3">Blog</h1>
+    <hr>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for post in posts%}
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://picsum.photos/id/237/150/150" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="#" class="text-decoration-none text-danger">{{post.title}}</a></h5>
+                    <p class="card-text">{{post.content|truncatewords:30}}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated {{post.updated|timesince}} ago</small>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+
+    </div>
+</div>
+{% endblock content %}
