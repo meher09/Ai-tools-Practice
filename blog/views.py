@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.shortcuts import render,get_object_or_404
 from .models import *
 
 # Create your views here.
@@ -8,7 +9,20 @@ def Home(request):
 
 
 def Blog(request):
-    posts = BlogPost.objects.filter(status = 'published')
+    queryset = BlogPost.objects.filter(status = 'published').order_by('-created')
+    per_page = 3
+    paginator = Paginator(queryset,per_page)
+    page_number = request.GET.get('page')
+    posts = paginator.get_page(page_number)
+    # <QueryDict: {'page':[2]} -request.GET
+
     template_name = 'Blog/blog.html'
     context = {'posts': posts}
+    return render(request, template_name, context)
+
+
+def single_post(request, slug ):
+    post = get_object_or_404(BlogPost, slug= slug)
+    template_name = 'Blog/single.html'
+    context = {'post': post}
     return render(request, template_name, context)

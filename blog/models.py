@@ -32,12 +32,15 @@ class BlogPost(models.Model):
     ]
     
     title = models.CharField(max_length = 200)
+    featured = models.ImageField(upload_to='blogs/', blank=True, null=True)
     slug= models.SlugField(unique= True,blank=True, null= True)
     content = models.TextField()
     created =models.DateTimeField( auto_now_add=True)
     updated = models.DateField( auto_now=True)
     category = models.ForeignKey(Category,  on_delete=models.CASCADE)
     status = models.CharField(max_length = 10, choices = STATUS, default = 'draft')
+    meta_title =models.CharField(max_length= 200, blank=True, null= True)
+    meta_description = models.TextField(blank=True, null=True)
     
     def save(self, *args, **kwargs):
         if not self.slug:
